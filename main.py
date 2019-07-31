@@ -2,8 +2,7 @@ import os
 import re
 import sys
 
-from models import Tournament
-
+from models.tournament import Tournament
 
 def validate_input(argv):
     """validate input file existed"""
