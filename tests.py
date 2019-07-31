@@ -16,8 +16,21 @@ class MainTestCase(unittest.TestCase):
 
     def test_parse_file(self):
         tournament = parse_file(self.file_path)
-        # self.assertEqual(len(tournament.matches), 2)
-        # todo more
+        self.assertEqual(len(tournament.matches), 2)
+
+        match1 = tournament.get_match(1)
+        match2 = tournament.get_match(2)
+
+        self.assertEqual(match1.set_count, 2)
+        self.assertEqual(str(match1.get_set(1)), '0 - 6')
+        self.assertEqual(str(match1.get_set(2)), '0 - 6')
+        self.assertEqual(match1.get_set(3), None)
+        self.assertEqual(str(match1), 'Person A vs Person B: 0 - 6, 0 - 6')
+        self.assertEqual(match1.get_winner(), 'Person B')
+
+        # todo In the deciding set (if the players get to 1 set each), games continue to play as normal without tie breaker until someone wins by 2 games.
+        self.assertEqual(match2.set_count, 3)
+        self.assertEqual(str(match2), 0)
 
 
 class TournamentTestCase(unittest.TestCase):
@@ -76,7 +89,7 @@ class MatchTestCase(unittest.TestCase):
         self.match.add_point(1)
         self.match.add_point(1)
         winner = self.match.add_point(1)
-        self.assertEqual(winner, self.match.player1)
+        self.assertEqual(winner, None)  # only win 1 game, not win set yet
         self.assertEqual(self.match.get_set(1).game_score1, 1)
         self.assertEqual(str(self.match.get_set(1)), '1 - 0')
 
@@ -128,7 +141,7 @@ class SetTestCase(unittest.TestCase):
         self.set.add_point(1)
         self.set.add_point(1)
         winner = self.set.add_point(1)
-        self.assertEqual(winner, self.set.player1)
+        self.assertEqual(winner, None)  # only win 1 game, not win set yet
         self.assertEqual(self.set.game_score1, 1)
         self.assertEqual(str(self.set), '1 - 0')
 

@@ -131,12 +131,12 @@ class Set():
         """add player1's point to this set"""
         game = self.create_or_get_game()
         if not game:
-            return
+            return None
 
         winner = game.add_point(player1_point)
         if winner:
             self.current_game_number = None
-        return winner
+        return self.get_winner()
 
 
 class Match():
@@ -162,7 +162,7 @@ class Match():
         return len(list(filter(lambda s: s.get_winner() == self.player2, self.sets.values())))
 
     def __str__(self):
-        return f'{self.player1} vs {self.player1}: %s' % ', '.join([str(s) for s in self.sets])
+        return f'{self.player1} vs {self.player2}: %s' % ', '.join([str(s) for s in self.sets.values()])
 
     def get_set(self, set_number):
         if set_number in self.sets:
@@ -186,11 +186,11 @@ class Match():
         """add player1's point to this match"""
         _set = self.create_or_get_set()
         if not _set:
-            return
+            return None
         winner = _set.add_point(player1_point)
         if winner:
             self.current_set_number = None
-        return winner
+        return self.get_winner()
 
     def get_winner(self):
         if self.set_score1 >= self._win_set:
@@ -199,6 +199,9 @@ class Match():
             return self.player2
         return None  # not finished yet
 
+    @property
+    def set_count(self):
+        return len(self.sets)
 
 class Tournament():
     """stand for whole tournament"""

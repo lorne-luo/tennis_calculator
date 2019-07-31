@@ -1,5 +1,8 @@
-import sys
 import os
+import re
+import sys
+
+from models import Tournament
 
 
 def validate_input(argv):
@@ -24,15 +27,60 @@ def read_line(file):
 
 def parse_file(filepath):
     """top entry read filepath,return all tournament, set, game, score"""
+    tournament = Tournament()
+    current_match = None
+    match_number = None
+    player1 = player2 = None
     try:
         with open(filepath) as file_handler:
             for line in read_line(file_handler):
                 # process line
                 line = line.strip()
-                if line:
-                    print(line)
+                if not line:
+                    continue
+
+                _match_number = search_match(line)
+                if _match_number:
+                    # new match start
+                    current_match = None
+                    match_number = _match_number
+                    continue
+
+                players = search_player(line)
+                if players:
+                    # read player
+                    player1, player2 = players
+                    continue
+
+                if line in ['1', '0']:
+                    # score start, skip invalid score
+                    if not current_match:
+                        current_match = tournament.create_match(match_number, player1, player2)
+
+                    current_match.add_point(int(line))
     except Exception as ex:
-        print("Error: {ex}")
+        print(f"Error: {ex}")
+
+    return tournament
+
+
+def search_match(line):
+    p = re.compile("match: ([0-9]*)", re.IGNORECASE)
+    result = p.search(line)
+    if result and result.group():
+        try:
+            return int(result.group(1))
+        except:
+            pass
+    return None
+
+
+def search_player(line):
+    p = re.compile("(.*) vs (.*)", re.IGNORECASE)
+    result = p.search(line)
+    if result and result.group():
+        return result.group(1), result.group(2)
+    return None
 
 
 if __name__ == '__main__':
