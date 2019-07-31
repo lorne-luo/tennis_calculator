@@ -2,7 +2,7 @@ import unittest
 from unittest import mock
 
 from main import validate_input, parse_file
-from models import Tournament, Match
+from models import Tournament, Match, Set
 
 
 class MainTestCase(unittest.TestCase):
@@ -66,6 +66,45 @@ class MatchTestCase(unittest.TestCase):
     def test_add_point(self):
         # todo
         pass
+
+
+class SetTestCase(unittest.TestCase):
+    set = Set(Match(1, 'Player A', 'Player B'), 1)
+
+    def test_property(self):
+        self.assertEqual(self.set.player1, 'Player A')
+        self.assertEqual(self.set.player2, 'Player B')
+        self.assertEqual(self.set.get_winner(), None)
+
+    @mock.patch("models.Set.game_score1", mock.PropertyMock(return_value=0))
+    @mock.patch("models.Set.game_score2", mock.PropertyMock(return_value=6))
+    def test_get_winner1(self):
+        self.assertEqual(self.set.get_winner(), self.set.player2)
+
+    @mock.patch("models.Set.game_score1", mock.PropertyMock(return_value=7))
+    @mock.patch("models.Set.game_score2", mock.PropertyMock(return_value=6))
+    def test_get_winner2(self):
+        self.assertEqual(self.set.get_winner(), self.set.player1)
+
+    @mock.patch("models.Set.game_score1", mock.PropertyMock(return_value=4))
+    @mock.patch("models.Set.game_score2", mock.PropertyMock(return_value=6))
+    def test_get_winner3(self):
+        self.assertEqual(self.set.get_winner(), self.set.player2)
+
+    @mock.patch("models.Set.game_score1", mock.PropertyMock(return_value=5))
+    @mock.patch("models.Set.game_score2", mock.PropertyMock(return_value=6))
+    def test_get_winner4(self):
+        self.assertEqual(self.set.get_winner(), None)
+
+    def test_game(self):
+        self.assertEqual(self.set.current_game_number, None)  # game not start yet
+        self.assertFalse(self.set.get_game(next=False))
+        current_game = self.set.get_game()
+        self.assertTrue(current_game)
+
+        # get next game
+        # todo
+
     def test_add_point(self):
         # todo
         pass

@@ -1,5 +1,61 @@
-class Set():
+from collections import OrderedDict
+
+
+class Game():
+    """single game"""
     pass
+class Set():
+    """single set"""
+    _win_game = 6
+    _tiebreak_game = 7
+
+    def __init__(self, match, set_number):
+        self.set_number = set_number
+        self.match = match
+        self.current_game_number = None
+        self.games = OrderedDict()
+
+    @property
+    def game_score1(self):
+        return len(list(filter(lambda s: s.get_winner() == self.player1, self.games.values())))
+
+    @property
+    def game_score2(self):
+        return len(list(filter(lambda s: s.get_winner() == self.player2, self.games.values())))
+
+    def __str__(self):
+        return f'{self.game_score1} - {self.game_score2}'
+
+    @property
+    def player1(self):
+        return self.match.player1
+
+    @property
+    def player2(self):
+        return self.match.player2
+
+    def get_winner(self):
+        if self.game_score1 >= self._win_game or self.game_score2 >= self._win_game:
+            if self.game_score1 == self._tiebreak_game or self.game_score1 - self.game_score2 > 1:
+                return self.player1
+            elif self.game_score2 == self._tiebreak_game or self.game_score2 - self.game_score1 > 1:
+                return self.player2
+
+        return None  # not finished yet
+
+    def get_game(self, next=True):
+        """return current game, create next game automatically if next=True"""
+        if self.current_game_number:
+            # current game is on going
+            return self.games[self.current_game_number]
+        elif next:
+            # get next game number
+            self.current_game_number = max(self.games.keys()) + 1 if self.games else 1
+            self.games[self.current_game_number] = Set(self, self.current_game_number)
+            return self.games[self.current_game_number]
+        else:
+            return None
+
 
 
 class Match():
