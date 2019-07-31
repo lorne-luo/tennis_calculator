@@ -109,7 +109,12 @@ class Set():
 
         return None  # not finished yet
 
-    def get_game(self, next=True):
+    def get_game(self, game_number):
+        if game_number in self.games:
+            return self.games[game_number]
+        return None
+
+    def create_or_get_game(self, next=True):
         """return current game, create next game automatically if next=True"""
         if self.current_game_number:
             # current game is on going

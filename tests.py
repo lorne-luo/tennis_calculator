@@ -1,4 +1,5 @@
 import unittest
+from collections import OrderedDict
 from unittest import mock
 
 from main import validate_input, parse_file
@@ -37,6 +38,7 @@ class MatchTestCase(unittest.TestCase):
         self.assertEqual(self.match.set_score1, 0)
         self.assertEqual(self.match.set_score2, 0)
         self.assertEqual(self.match.get_winner(), None)
+        self.assertEqual(self.match.get_set(11), None)
 
     def test_create_set(self):
         # get init set
@@ -77,6 +79,7 @@ class SetTestCase(unittest.TestCase):
         self.assertEqual(self.set.player1, 'Player A')
         self.assertEqual(self.set.player2, 'Player B')
         self.assertEqual(self.set.get_winner(), None)
+        self.assertEqual(self.set.get_game(11), None)
 
     @mock.patch("models.Set.game_score1", mock.PropertyMock(return_value=0))
     @mock.patch("models.Set.game_score2", mock.PropertyMock(return_value=6))
@@ -100,8 +103,8 @@ class SetTestCase(unittest.TestCase):
 
     def test_game(self):
         self.assertEqual(self.set.current_game_number, None)  # game not start yet
-        self.assertFalse(self.set.get_game(next=False))
-        current_game = self.set.get_game()
+        self.assertFalse(self.set.create_or_get_game(next=False))
+        current_game = self.set.create_or_get_game()
         self.assertTrue(current_game)
 
         # get next game
