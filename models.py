@@ -1,4 +1,3 @@
-
 class Set():
     pass
 
@@ -8,4 +7,7 @@ class Match():
 
 
 class Tournament():
-    pass
+    def __init__(self):
+        self.matches = {}
+
+    
