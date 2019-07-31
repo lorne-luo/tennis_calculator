@@ -40,8 +40,10 @@ class MatchTestCase(unittest.TestCase):
 
     def test_create_set(self):
         # get init set
-        self.assertFalse(self.match.get_set(next=False))
-        current_set = self.match.get_set()
+        self.match.sets = OrderedDict()
+        self.match.current_set_number = None
+        self.assertFalse(self.match.create_or_get_set(next=False))
+        current_set = self.match.create_or_get_set()
         self.assertEqual(current_set.set_number, 1)
         self.assertEqual(self.match.current_set_number, 1)
 

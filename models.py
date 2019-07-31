@@ -67,6 +67,8 @@ class Game():
         else:
             self.point2 += 1
 
+        return self.get_winner()
+
 
 class Set():
     """single set"""
@@ -115,7 +117,7 @@ class Set():
         elif next:
             # get next game number
             self.current_game_number = max(self.games.keys()) + 1 if self.games else 1
-            self.games[self.current_game_number] = Set(self, self.current_game_number)
+            self.games[self.current_game_number] = Game(self.current_game_number, self)
             return self.games[self.current_game_number]
         else:
             return None
@@ -136,16 +138,23 @@ class Match():
 
     @property
     def set_score1(self):
+        """player1's set score"""
         return len(list(filter(lambda s: s.get_winner() == self.player1, self.sets.values())))
 
     @property
     def set_score2(self):
+        """player2's set score"""
         return len(list(filter(lambda s: s.get_winner() == self.player2, self.sets.values())))
 
     def __str__(self):
         return f'{self.player1} vs {self.player1}: %s' % ', '.join([str(s) for s in self.sets])
 
-    def get_set(self, next=True):
+    def get_set(self, set_number):
+        if set_number in self.sets:
+            return self.sets[set_number]
+        return None
+
+    def create_or_get_set(self, next=True):
         """return current set, create next set automatically if next=True"""
         if self.current_set_number:
             # current set is on going
