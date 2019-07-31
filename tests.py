@@ -68,8 +68,17 @@ class MatchTestCase(unittest.TestCase):
         self.assertEqual(self.match.get_winner(), None)
 
     def test_add_point(self):
-        # todo
-        pass
+        self.match.add_point(1)
+        self.assertEqual(self.match.create_or_get_set().create_or_get_game().point1, 1)
+        self.assertEqual(self.match.create_or_get_set().create_or_get_game().point2, 0)
+
+        # win first game
+        self.match.add_point(1)
+        self.match.add_point(1)
+        winner = self.match.add_point(1)
+        self.assertEqual(winner, self.match.player1)
+        self.assertEqual(self.match.get_set(1).game_score1, 1)
+        self.assertEqual(str(self.match.get_set(1)), '1 - 0')
 
 
 class SetTestCase(unittest.TestCase):
@@ -111,8 +120,17 @@ class SetTestCase(unittest.TestCase):
         # todo
 
     def test_add_point(self):
-        # todo
-        pass
+        self.set.add_point(1)
+        self.assertEqual(self.set.create_or_get_game().point1, 1)
+        self.assertEqual(self.set.create_or_get_game().point2, 0)
+
+        # win first game
+        self.set.add_point(1)
+        self.set.add_point(1)
+        winner = self.set.add_point(1)
+        self.assertEqual(winner, self.set.player1)
+        self.assertEqual(self.set.game_score1, 1)
+        self.assertEqual(str(self.set), '1 - 0')
 
 
 class GameTestCase(unittest.TestCase):

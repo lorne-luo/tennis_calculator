@@ -127,6 +127,16 @@ class Set():
         else:
             return None
 
+    def add_point(self, player1_point):
+        """add player1's point to this set"""
+        game = self.create_or_get_game()
+        if not game:
+            return
+
+        winner = game.add_point(player1_point)
+        if winner:
+            self.current_game_number = None
+        return winner
 
 
 class Match():
@@ -172,6 +182,15 @@ class Match():
         else:
             return None
 
+    def add_point(self, player1_point):
+        """add player1's point to this match"""
+        _set = self.create_or_get_set()
+        if not _set:
+            return
+        winner = _set.add_point(player1_point)
+        if winner:
+            self.current_set_number = None
+        return winner
 
     def get_winner(self):
         if self.set_score1 >= self._win_set:
