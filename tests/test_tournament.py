@@ -19,7 +19,6 @@ class TournamentTestCase(unittest.TestCase):
         self.assertTrue(self.tournament.get_match(match_number))
 
 
-
 class MainTestCase(unittest.TestCase):
     file_path = 'full_tournament.txt'
 
@@ -28,11 +27,10 @@ class MainTestCase(unittest.TestCase):
         self.assertFalse(validate_input(['main.py', 'not exist.txt']))
         self.assertEqual(self.file_path, validate_input(['main.py', self.file_path]))
 
-        self.assertEqual(('player','Person A'),capture_input('Games Player Person A'))
-        self.assertEqual(('match', 1),capture_input('Score Match 01'))
-        self.assertEqual(('exit', None),capture_input('Exit'))
-        self.assertEqual((None, None),capture_input('invalid input'))
-
+        self.assertEqual(('player', 'Person A'), capture_input('Games Player Person A'))
+        self.assertEqual(('match', 1), capture_input('Score Match 01'))
+        self.assertEqual(('exit', None), capture_input('Exit'))
+        self.assertEqual((None, None), capture_input('invalid input'))
 
     def test_parse_file(self):
         tournament = parse_file(self.file_path)
@@ -48,21 +46,29 @@ class MainTestCase(unittest.TestCase):
         self.assertEqual(match1.set_score1, 0)
         self.assertEqual(match1.set_score2, 2)
 
+        # winner
         self.assertEqual(match2.get_set(1).get_winner(), match2.player2)
         self.assertEqual(match2.get_set(2).get_winner(), match2.player1)
         self.assertEqual(match2.get_set(3).get_winner(), match2.player2)
 
+        # set result
         self.assertEqual(match2.set_score1, 1)
         self.assertEqual(match2.set_score2, 2)
-
-
         self.assertEqual(match1.set_count, 2)
         self.assertEqual(str(match1.get_set(1)), '0 - 6')
         self.assertEqual(str(match1.get_set(2)), '0 - 6')
         self.assertEqual(match1.get_set(3), None)
+
+        # match result
         self.assertEqual(str(match1), 'Person A vs Person B: 0 - 6, 0 - 6')
         self.assertEqual(match1.get_winner(), 'Person B')
-
-        # todo In the deciding set (if the players get to 1 set each), games continue to play as normal without tie breaker until someone wins by 2 games.
         self.assertEqual(match2.set_count, 3)
         self.assertEqual(str(match2), 'Person A vs Person C: 6 - 7, 6 - 0, 6 - 8')
+        self.assertTrue(match2.get_set(3).is_deciding)  # deciding set
+        self.assertEqual(match2.get_set(4), None)
+
+        # get player point
+        self.assertEqual(match1.get_player_point(match1.player1), (0, 48))
+        self.assertEqual(match1.get_player_point(match1.player1), (0, 48))
+        self.assertEqual(tournament.get_player_point(match1.player1), (80, 114))
+        self.assertEqual(tournament.get_player_point(match2.player2), (66, 80))

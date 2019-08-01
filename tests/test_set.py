@@ -34,23 +34,27 @@ class SetTestCase(unittest.TestCase):
     def test_get_winner4(self):
         self.assertEqual(self.set.get_winner(), None)
 
-    def test_game(self):
+    def test_create_game(self):
         self.assertEqual(self.set.current_game_number, None)  # game not start yet
         self.assertFalse(self.set.create_or_get_game(next=False))
         current_game = self.set.create_or_get_game()
         self.assertTrue(current_game)
 
-        # get next game
-        # todo
-
     def test_add_point(self):
         self.set.add_point(1)
+        self.assertEqual(self.set.get_player_point(self.set.player1), (1, 0))
+        self.assertEqual(self.set.get_player_point(self.set.player2), (0, 1))
         self.assertEqual(self.set.create_or_get_game().point1, 1)
         self.assertEqual(self.set.create_or_get_game().point2, 0)
 
+        self.set.add_point(1)
+        self.assertEqual(self.set.get_player_point(self.set.player1), (2, 0))
+        self.assertEqual(self.set.get_player_point(self.set.player2), (0, 2))
+        self.set.add_point(1)
+        self.assertEqual(self.set.get_player_point(self.set.player1), (3, 0))
+        self.assertEqual(self.set.get_player_point(self.set.player2), (0, 3))
+
         # win first game
-        self.set.add_point(1)
-        self.set.add_point(1)
         winner = self.set.add_point(1)
         self.assertEqual(winner, None)  # only win 1 game, not win set yet
         self.assertEqual(self.set.game_score1, 1)

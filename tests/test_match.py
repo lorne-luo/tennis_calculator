@@ -23,9 +23,6 @@ class MatchTestCase(unittest.TestCase):
         self.assertEqual(current_set.set_number, 1)
         self.assertEqual(self.match.current_set_number, 1)
 
-        # get next set
-        # todo
-
     @mock.patch("models.match.Match.set_score1", mock.PropertyMock(return_value=0))
     @mock.patch("models.match.Match.set_score2", mock.PropertyMock(return_value=2))
     def test_get_winner1(self):
@@ -45,11 +42,21 @@ class MatchTestCase(unittest.TestCase):
         self.match.add_point(1)
         self.assertEqual(self.match.create_or_get_set().create_or_get_game().point1, 1)
         self.assertEqual(self.match.create_or_get_set().create_or_get_game().point2, 0)
+        self.assertEqual(self.match.get_player_point(self.match.player1), (1, 0))
+        self.assertEqual(self.match.get_player_point(self.match.player2), (0, 1))
 
         # win first game
         self.match.add_point(1)
+        self.assertEqual(self.match.get_player_point(self.match.player1), (2, 0))
+        self.assertEqual(self.match.get_player_point(self.match.player2), (0, 2))
+
         self.match.add_point(1)
+        self.assertEqual(self.match.get_player_point(self.match.player1), (3, 0))
+        self.assertEqual(self.match.get_player_point(self.match.player2), (0, 3))
+
         winner = self.match.add_point(1)
+        self.assertEqual(self.match.get_player_point(self.match.player1), (4, 0))
+        self.assertEqual(self.match.get_player_point(self.match.player2), (0, 4))
         self.assertEqual(winner, None)  # only win 1 game, not win set yet
         self.assertEqual(self.match.get_set(1).game_score1, 1)
         self.assertEqual(str(self.match.get_set(1)), '1 - 0')
