@@ -33,4 +33,4 @@ class MainTestCase(unittest.TestCase):
 
         # todo In the deciding set (if the players get to 1 set each), games continue to play as normal without tie breaker until someone wins by 2 games.
         self.assertEqual(match2.set_count, 3)
-        self.assertEqual(str(match2), 0)
+        self.assertEqual(str(match2), 'Person A vs Person C: 6 - 7, 6 - 0, 6 - 8')

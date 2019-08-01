@@ -8,11 +8,12 @@ class Set():
     _win_game = 6
     _tiebreak_game = 7
 
-    def __init__(self, match, set_number):
+    def __init__(self, match, set_number, is_deciding=False):
         self.set_number = set_number
         self.match = match
         self.current_game_number = None
         self.games = OrderedDict()
+        self.is_deciding = is_deciding
 
     @property
     def game_score1(self):
@@ -34,11 +35,19 @@ class Set():
         return self.match.player2
 
     def get_winner(self):
-        if self.game_score1 >= self._win_game or self.game_score2 >= self._win_game:
-            if self.game_score1 == self._tiebreak_game or self.game_score1 - self.game_score2 > 1:
-                return self.player1
-            elif self.game_score2 == self._tiebreak_game or self.game_score2 - self.game_score1 > 1:
-                return self.player2
+        if self.is_deciding:
+            # for deciding set, must lead 2 set
+            if self.game_score1 >= 6 or self.game_score2 >= 6:
+                if self.game_score1 - self.game_score2 > 1:
+                    return self.player1
+                elif self.game_score2 - self.game_score1 > 1:
+                    return self.player2
+        else:
+            if self.game_score1 >= self._win_game or self.game_score2 >= self._win_game:
+                if self.game_score1 == self._tiebreak_game or self.game_score1 - self.game_score2 > 1:
+                    return self.player1
+                elif self.game_score2 == self._tiebreak_game or self.game_score2 - self.game_score1 > 1:
+                    return self.player2
 
         return None  # not finished yet
 

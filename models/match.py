@@ -7,6 +7,7 @@ class Match():
     """single match"""
 
     _win_set = 2  # only women, best-of-three
+    _best_of = 3
 
     def __init__(self, match_number, player1, player2):
         self.match_number = match_number
@@ -41,7 +42,8 @@ class Match():
         elif next:
             # get next set number
             self.current_set_number = max(self.sets.keys()) + 1 if self.sets else 1
-            self.sets[self.current_set_number] = Set(self, self.current_set_number)
+            is_deciding_set = self.current_set_number == self._best_of
+            self.sets[self.current_set_number] = Set(self, self.current_set_number, is_deciding_set)
             return self.sets[self.current_set_number]
         else:
             return None
