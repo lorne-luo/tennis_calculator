@@ -34,6 +34,11 @@ class Tournament:
             for match in self.matches.values()
             if player_name in [match.player1, match.player2]
         ]
+
+        # no player found
+        if not win_lose_points:
+            return None, None
+
         # sumup win and lose
         win_point = sum([match[0] for match in win_lose_points])
         lose_point = sum([match[1] for match in win_lose_points])

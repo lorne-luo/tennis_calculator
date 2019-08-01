@@ -69,6 +69,7 @@ class MainTestCase(unittest.TestCase):
 
         # get player point
         self.assertEqual(match1.get_player_point(match1.player1), (0, 48))
-        self.assertEqual(match1.get_player_point(match1.player1), (0, 48))
+        self.assertEqual(match1.get_player_point(match1.player2), (48, 0))
         self.assertEqual(tournament.get_player_point(match1.player1), (80, 114))
         self.assertEqual(tournament.get_player_point(match2.player2), (66, 80))
+        self.assertEqual(tournament.get_player_point('Not exist player'), (None, None))

@@ -59,7 +59,7 @@ class Game:
             self.point1 += 1
         else:
             self.point2 += 1
-        print(player1_point, ",", self)
+        print(player1_point, ",  ", self)
         return self.get_winner()
 
     def get_player_point(self, player_name):

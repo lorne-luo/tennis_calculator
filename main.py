@@ -93,6 +93,8 @@ def capture_input(line):
     if line.lower() == "exit":
         return "exit", None
 
+    line = line.strip()
+
     match_reg = re.compile("Score Match ([0-9]*)", re.IGNORECASE)
     player_reg = re.compile("Games Player (.*)", re.IGNORECASE)
 
@@ -143,6 +145,9 @@ if __name__ == "__main__":
                 match.print()
         elif command.lower() == "player":
             win, lose = tournament.get_player_point(param)
-            print(win, lose)
+            if (win, lose) == (None, None):
+                print(f"Can't found player with name {param}.")
+            else:
+                print(win, lose)
 
         print_command()
