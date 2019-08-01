@@ -65,3 +65,11 @@ class Game():
             self.point2 += 1
         print(player1_point, ',', self)
         return self.get_winner()
+
+    def get_player_point(self, player_name):
+        """return player's win and lose, if not this game return 0,0"""
+        if player_name == self.player1:
+            return self.point1, self.point2
+        elif player_name == self.player2:
+            return self.point2, self.point1
+        return 0, 0

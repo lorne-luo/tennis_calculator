@@ -79,3 +79,18 @@ class Set():
         if winner:
             self.current_game_number = None
         return self.get_winner()
+
+    def get_player_point(self, player_name):
+        """return player's win and lose, if not this game return 0,0"""
+        total_win = total_lose = 0
+        for game in self.games.values():
+            if player_name == self.player1:
+                win, lose = game.get_player_point(self.player1)
+            elif player_name == self.player2:
+                win, lose = game.get_player_point(self.player2)
+            else:
+                return 0, 0
+            total_win += win
+            total_lose += lose
+
+        return total_win, total_lose

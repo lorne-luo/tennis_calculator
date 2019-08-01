@@ -59,6 +59,7 @@ class Match():
         return self.get_winner()
 
     def get_winner(self):
+        """return winner of this match, if not finished return None"""
         if self.set_score1 >= self._win_set:
             return self.player1
         elif self.set_score2 >= self._win_set:
@@ -68,3 +69,42 @@ class Match():
     @property
     def set_count(self):
         return len(self.sets)
+
+    def print(self):
+        """print the match result to console"""
+        winner = self.get_winner()
+        swap_position = winner != self.player1
+        if not winner:
+            print('This match is still on ongoing.')
+        else:
+            if swap_position:
+                print(f'{self.player2} defeated {self.player1}')
+            else:
+                print(f'{self.player1} defeated {self.player2}')
+
+        if swap_position:
+            print(f'{self.set_score2} sets to {self.set_score1}')
+        else:
+            print(f'{self.set_score1} sets to {self.set_score2}')
+
+        for _set in self.sets.values():
+            if swap_position:
+                print(f'{_set.game_score2} {_set.game_score1}')
+            else:
+                print(f'{_set.set_score1} {_set.set_score2}')
+
+    def get_player_point(self, player_name):
+        """return player's win and lose, if not this game return 0,0"""
+
+        total_win = total_lose = 0
+        for _set in self.sets.values():
+            if player_name == self.player1:
+                win, lose = _set.get_player_point(self.player1)
+            elif player_name == self.player2:
+                win, lose = _set.get_player_point(self.player2)
+            else:
+                return 0, 0
+            total_win += win
+            total_lose += lose
+
+        return total_win, total_lose
