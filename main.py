@@ -104,15 +104,43 @@ def capture_input(line):
     return None, None
 
 
+def print_command():
+    """print command instructions"""
+    print("\nCommand instructions:")
+    print("    1. Query match result: `Score Match <id>`")
+    print("    2. Query games for player: `Games Player <Player Name>`")
+    print("    3. Exit: `exit`")
+    print("Please input commandt >>")
+
+
 if __name__ == '__main__':
     filepath = validate_input(sys.argv)
     if not filepath:
         print('Please input a valid file.')
         exit(1)
 
-    print(f'{filepath} loaded.')
-
     tournament = parse_file(filepath)
 
-    print(tournament)
-    # todo user input query
+    print(f'{filepath} load succeed.')
+    print_command()
+    while True:
+        input_line = input()
+        command, param = capture_input(input_line)
+
+        if not command:
+            print("Invalid command, please input a valid command >>")
+            continue
+        if command.lower() == 'exit':
+            exit(0)
+
+        elif command.lower() == 'match':
+            match = tournament.get_match(param)
+            if not match:
+                print(f'Can\'t found match with number {param}.')
+            else:
+                match.print()
+        elif command.lower() == 'player':
+            win, lose = tournament.get_player_point(param)
+            print(win, lose)
+
+        print_command()
