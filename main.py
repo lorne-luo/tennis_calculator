@@ -4,6 +4,7 @@ import sys
 
 from models.tournament import Tournament
 
+
 def validate_input(argv):
     """validate input file existed"""
     if len(argv) < 2:
@@ -80,6 +81,27 @@ def search_player(line):
     if result and result.group():
         return result.group(1), result.group(2)
     return None
+
+
+def capture_input(line):
+    """capture user query input"""
+    # Score Match 01
+    # Games Player Person A
+    # exit
+    if line.lower() == 'exit':
+        return 'exit', None
+
+    match_reg = re.compile("Score Match ([0-9]*)", re.IGNORECASE)
+    player_reg = re.compile("Games Player (.*)", re.IGNORECASE)
+
+    result = match_reg.search(line)
+    if result and result.group(1):
+        return 'match', int(result.group(1))
+    result = player_reg.search(line)
+    if result and result.group(1):
+        return 'player', result.group(1)
+
+    return None, None
 
 
 if __name__ == '__main__':

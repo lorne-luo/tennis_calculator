@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from main import validate_input, parse_file
+from main import validate_input, parse_file, capture_input
 from models.game import Game
 from models.set import Set
 from models.match import Match
@@ -27,6 +27,12 @@ class MainTestCase(unittest.TestCase):
         self.assertFalse(validate_input(['main.py']))
         self.assertFalse(validate_input(['main.py', 'not exist.txt']))
         self.assertEqual(self.file_path, validate_input(['main.py', self.file_path]))
+
+        self.assertEqual(('player','Person A'),capture_input('Games Player Person A'))
+        self.assertEqual(('match', 1),capture_input('Score Match 01'))
+        self.assertEqual(('exit', None),capture_input('Exit'))
+        self.assertEqual((None, None),capture_input('invalid input'))
+
 
     def test_parse_file(self):
         tournament = parse_file(self.file_path)
