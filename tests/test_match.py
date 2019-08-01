@@ -6,7 +6,7 @@ from models.match import Match
 
 
 class MatchTestCase(unittest.TestCase):
-    match = Match(1, 'Player A', 'Player B')
+    match = Match(1, "Player A", "Player B")
 
     def test_init(self):
         self.assertEqual(self.match.set_score1, 0)
@@ -59,4 +59,4 @@ class MatchTestCase(unittest.TestCase):
         self.assertEqual(self.match.get_player_point(self.match.player2), (0, 4))
         self.assertEqual(winner, None)  # only win 1 game, not win set yet
         self.assertEqual(self.match.get_set(1).game_score1, 1)
-        self.assertEqual(str(self.match.get_set(1)), '1 - 0')
+        self.assertEqual(str(self.match.get_set(1)), "1 - 0")

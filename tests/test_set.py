@@ -6,11 +6,11 @@ from models.match import Match
 
 
 class SetTestCase(unittest.TestCase):
-    set = Set(Match(1, 'Player A', 'Player B'), 1)
+    set = Set(Match(1, "Player A", "Player B"), 1)
 
     def test_property(self):
-        self.assertEqual(self.set.player1, 'Player A')
-        self.assertEqual(self.set.player2, 'Player B')
+        self.assertEqual(self.set.player1, "Player A")
+        self.assertEqual(self.set.player2, "Player B")
         self.assertEqual(self.set.get_winner(), None)
         self.assertEqual(self.set.get_game(11), None)
 
@@ -58,4 +58,4 @@ class SetTestCase(unittest.TestCase):
         winner = self.set.add_point(1)
         self.assertEqual(winner, None)  # only win 1 game, not win set yet
         self.assertEqual(self.set.game_score1, 1)
-        self.assertEqual(str(self.set), '1 - 0')
+        self.assertEqual(str(self.set), "1 - 0")

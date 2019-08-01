@@ -3,7 +3,7 @@ from collections import OrderedDict
 from models.set import Set
 
 
-class Match():
+class Match:
     """single match"""
 
     _win_set = 2  # only women, best-of-three
@@ -19,15 +19,21 @@ class Match():
     @property
     def set_score1(self):
         """player1's set score"""
-        return len(list(filter(lambda s: s.get_winner() == self.player1, self.sets.values())))
+        return len(
+            list(filter(lambda s: s.get_winner() == self.player1, self.sets.values()))
+        )
 
     @property
     def set_score2(self):
         """player2's set score"""
-        return len(list(filter(lambda s: s.get_winner() == self.player2, self.sets.values())))
+        return len(
+            list(filter(lambda s: s.get_winner() == self.player2, self.sets.values()))
+        )
 
     def __str__(self):
-        return f'{self.player1} vs {self.player2}: %s' % ', '.join([str(s) for s in self.sets.values()])
+        return f"{self.player1} vs {self.player2}: %s" % ", ".join(
+            [str(s) for s in self.sets.values()]
+        )
 
     def get_set(self, set_number):
         if set_number in self.sets:
@@ -43,7 +49,9 @@ class Match():
             # get next set number
             self.current_set_number = max(self.sets.keys()) + 1 if self.sets else 1
             is_deciding_set = self.current_set_number == self._best_of
-            self.sets[self.current_set_number] = Set(self, self.current_set_number, is_deciding_set)
+            self.sets[self.current_set_number] = Set(
+                self, self.current_set_number, is_deciding_set
+            )
             return self.sets[self.current_set_number]
         else:
             return None
@@ -75,23 +83,23 @@ class Match():
         winner = self.get_winner()
         swap_position = winner != self.player1
         if not winner:
-            print('This match is still on ongoing.')
+            print("This match is still on ongoing.")
         else:
             if swap_position:
-                print(f'{self.player2} defeated {self.player1}')
+                print(f"{self.player2} defeated {self.player1}")
             else:
-                print(f'{self.player1} defeated {self.player2}')
+                print(f"{self.player1} defeated {self.player2}")
 
         if swap_position:
-            print(f'{self.set_score2} sets to {self.set_score1}')
+            print(f"{self.set_score2} sets to {self.set_score1}")
         else:
-            print(f'{self.set_score1} sets to {self.set_score2}')
+            print(f"{self.set_score1} sets to {self.set_score2}")
 
         for _set in self.sets.values():
             if swap_position:
-                print(f'{_set.game_score2} {_set.game_score1}')
+                print(f"{_set.game_score2} {_set.game_score1}")
             else:
-                print(f'{_set.set_score1} {_set.set_score2}')
+                print(f"{_set.set_score1} {_set.set_score2}")
 
     def get_player_point(self, player_name):
         """return player's win and lose, if not this game return 0,0"""

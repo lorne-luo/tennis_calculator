@@ -14,23 +14,23 @@ class TournamentTestCase(unittest.TestCase):
     def test_create_match(self):
         match_number = 1
         self.assertEqual(self.tournament.match_count, 0)
-        self.tournament.create_match(match_number, 'Player A', 'Player B')
+        self.tournament.create_match(match_number, "Player A", "Player B")
         self.assertEqual(self.tournament.match_count, 1)
         self.assertTrue(self.tournament.get_match(match_number))
 
 
 class MainTestCase(unittest.TestCase):
-    file_path = 'full_tournament.txt'
+    file_path = "full_tournament.txt"
 
     def test_input(self):
-        self.assertFalse(validate_input(['main.py']))
-        self.assertFalse(validate_input(['main.py', 'not exist.txt']))
-        self.assertEqual(self.file_path, validate_input(['main.py', self.file_path]))
+        self.assertFalse(validate_input(["main.py"]))
+        self.assertFalse(validate_input(["main.py", "not exist.txt"]))
+        self.assertEqual(self.file_path, validate_input(["main.py", self.file_path]))
 
-        self.assertEqual(('player', 'Person A'), capture_input('Games Player Person A'))
-        self.assertEqual(('match', 1), capture_input('Score Match 01'))
-        self.assertEqual(('exit', None), capture_input('Exit'))
-        self.assertEqual((None, None), capture_input('invalid input'))
+        self.assertEqual(("player", "Person A"), capture_input("Games Player Person A"))
+        self.assertEqual(("match", 1), capture_input("Score Match 01"))
+        self.assertEqual(("exit", None), capture_input("Exit"))
+        self.assertEqual((None, None), capture_input("invalid input"))
 
     def test_parse_file(self):
         tournament = parse_file(self.file_path)
@@ -55,15 +55,15 @@ class MainTestCase(unittest.TestCase):
         self.assertEqual(match2.set_score1, 1)
         self.assertEqual(match2.set_score2, 2)
         self.assertEqual(match1.set_count, 2)
-        self.assertEqual(str(match1.get_set(1)), '0 - 6')
-        self.assertEqual(str(match1.get_set(2)), '0 - 6')
+        self.assertEqual(str(match1.get_set(1)), "0 - 6")
+        self.assertEqual(str(match1.get_set(2)), "0 - 6")
         self.assertEqual(match1.get_set(3), None)
 
         # match result
-        self.assertEqual(str(match1), 'Person A vs Person B: 0 - 6, 0 - 6')
-        self.assertEqual(match1.get_winner(), 'Person B')
+        self.assertEqual(str(match1), "Person A vs Person B: 0 - 6, 0 - 6")
+        self.assertEqual(match1.get_winner(), "Person B")
         self.assertEqual(match2.set_count, 3)
-        self.assertEqual(str(match2), 'Person A vs Person C: 6 - 7, 6 - 0, 6 - 8')
+        self.assertEqual(str(match2), "Person A vs Person C: 6 - 7, 6 - 0, 6 - 8")
         self.assertTrue(match2.get_set(3).is_deciding)  # deciding set
         self.assertEqual(match2.get_set(4), None)
 

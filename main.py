@@ -52,10 +52,12 @@ def parse_file(filepath):
                     player1, player2 = players
                     continue
 
-                if line in ['1', '0']:
+                if line in ["1", "0"]:
                     # score start, skip invalid score
                     if not current_match:
-                        current_match = tournament.create_match(match_number, player1, player2)
+                        current_match = tournament.create_match(
+                            match_number, player1, player2
+                        )
 
                     current_match.add_point(int(line))
     except Exception as ex:
@@ -88,18 +90,18 @@ def capture_input(line):
     # Score Match 01
     # Games Player Person A
     # exit
-    if line.lower() == 'exit':
-        return 'exit', None
+    if line.lower() == "exit":
+        return "exit", None
 
     match_reg = re.compile("Score Match ([0-9]*)", re.IGNORECASE)
     player_reg = re.compile("Games Player (.*)", re.IGNORECASE)
 
     result = match_reg.search(line)
     if result and result.group(1):
-        return 'match', int(result.group(1))
+        return "match", int(result.group(1))
     result = player_reg.search(line)
     if result and result.group(1):
-        return 'player', result.group(1)
+        return "player", result.group(1)
 
     return None, None
 
@@ -113,15 +115,15 @@ def print_command():
     print("Please input commandt >>")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     filepath = validate_input(sys.argv)
     if not filepath:
-        print('Please input a valid file.')
+        print("Please input a valid file.")
         exit(1)
 
     tournament = parse_file(filepath)
 
-    print(f'{filepath} load succeed.')
+    print(f"{filepath} load succeed.")
     print_command()
     while True:
         input_line = input()
@@ -130,16 +132,16 @@ if __name__ == '__main__':
         if not command:
             print("Invalid command, please input a valid command >>")
             continue
-        if command.lower() == 'exit':
+        if command.lower() == "exit":
             exit(0)
 
-        elif command.lower() == 'match':
+        elif command.lower() == "match":
             match = tournament.get_match(param)
             if not match:
-                print(f'Can\'t found match with number {param}.')
+                print(f"Can't found match with number {param}.")
             else:
                 match.print()
-        elif command.lower() == 'player':
+        elif command.lower() == "player":
             win, lose = tournament.get_player_point(param)
             print(win, lose)
 

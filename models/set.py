@@ -3,8 +3,9 @@ from collections import OrderedDict
 from models.game import Game
 
 
-class Set():
+class Set:
     """single set"""
+
     _win_game = 6
     _tiebreak_game = 7
 
@@ -17,14 +18,18 @@ class Set():
 
     @property
     def game_score1(self):
-        return len(list(filter(lambda s: s.get_winner() == self.player1, self.games.values())))
+        return len(
+            list(filter(lambda s: s.get_winner() == self.player1, self.games.values()))
+        )
 
     @property
     def game_score2(self):
-        return len(list(filter(lambda s: s.get_winner() == self.player2, self.games.values())))
+        return len(
+            list(filter(lambda s: s.get_winner() == self.player2, self.games.values()))
+        )
 
     def __str__(self):
-        return f'{self.game_score1} - {self.game_score2}'
+        return f"{self.game_score1} - {self.game_score2}"
 
     @property
     def player1(self):
@@ -44,9 +49,15 @@ class Set():
                     return self.player2
         else:
             if self.game_score1 >= self._win_game or self.game_score2 >= self._win_game:
-                if self.game_score1 == self._tiebreak_game or self.game_score1 - self.game_score2 > 1:
+                if (
+                    self.game_score1 == self._tiebreak_game
+                    or self.game_score1 - self.game_score2 > 1
+                ):
                     return self.player1
-                elif self.game_score2 == self._tiebreak_game or self.game_score2 - self.game_score1 > 1:
+                elif (
+                    self.game_score2 == self._tiebreak_game
+                    or self.game_score2 - self.game_score1 > 1
+                ):
                     return self.player2
 
         return None  # not finished yet
