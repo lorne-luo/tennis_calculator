@@ -1,13 +1,23 @@
 # Tennis Calculator
 
-## Requirement Specification
+## Requirements
+To make it convenient to run and test, this works is finished within all Python built-in packages, so none extra packages needed. 
+
+The Python version should be 3.6 or above due to used [f-string formatting](https://docs.python.org/3/reference/lexical_analysis.html#f-strings) which is a new feature from Python 3.6.
+- Python 3.6 or above
+- Git
 
 ## Installation
+Simply git clone this repo and run `main.py`
+```
+git clone https://github.com/lorne-luo/tennis_calculator.git
+python3 main.py
+```
 
 ## How to test
-
+Run
 ```
-python -m unittest discover
+python3 -m unittest discover
 ```
 
 ## Development & Tools
