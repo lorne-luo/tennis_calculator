@@ -142,12 +142,16 @@ if __name__ == "__main__":
             if not match:
                 print(f"Can't found match with number {param}.")
             else:
+                print("-" * 20)
                 match.print()
+                print("-" * 20)
         elif command.lower() == "player":
             win, lose = tournament.get_player_point(param)
             if (win, lose) == (None, None):
                 print(f"Can't found player with name {param}.")
             else:
+                print("-" * 20)
                 print(win, lose)
+                print("-" * 20)
 
         print_command()
