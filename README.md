@@ -13,6 +13,7 @@ The Python version should be 3.6 or above due to used [f-string formatting](http
 Simply git clone this repo and run `main.py`
 ```
 git clone https://github.com/lorne-luo/tennis_calculator.git
+cd tennis_calculator
 python3 main.py full_tournament.txt
 ```
 
